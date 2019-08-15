@@ -1,0 +1,39 @@
+--------- n: 1000 ---------
+avg_time for log: 0.0112127
+avg_time for pow: 0.0298781
+avg_time for pow3mult: 0.0030334
+avg_time for sqrt: 0.004371
+avg_time for sum: 0.0028026
+--------- n: 10000 ---------
+avg_time for log: 0.0965361
+avg_time for pow: 0.304106
+avg_time for pow3mult: 0.0281951
+avg_time for sqrt: 0.0396083
+avg_time for sum: 0.0251405
+--------- n: 100000 ---------
+avg_time for log: 0.962915
+avg_time for pow: 2.63613
+avg_time for pow3mult: 0.267508
+avg_time for sqrt: 0.39182
+avg_time for sum: 0.247947
+--------- n: 1000000 ---------
+avg_time for log: 9.89962
+avg_time for pow: 26.6439
+avg_time for pow3mult: 2.95115
+avg_time for sqrt: 3.95104
+avg_time for sum: 2.58839
+--------- n: 10000000 ---------
+avg_time for log: 98.2566
+avg_time for pow: 276.824
+avg_time for pow3mult: 30.0685
+avg_time for sqrt: 41.4269
+avg_time for sum: 26.8218
+casting double: 27.1122ms
+pow durou menos que sqrt?:false
+log durou menos que 0.1s:true
+pow durou menos que 0.1s:false
+pow3mult durou menos que 0.1s:true
+sqrt durou menos que 0.1s:true
+sum durou menos que 0.1s:true
+experimento mais duradouro na média foi pow com duração 276.824 ms
+experimento mais curto na média foi sum com duração 0.0028026ms 

@@ -135,4 +135,5 @@ Use as operações acima no seu `main` para listar todos os experimentos que dur
 
 Para cada tamanho de vetor rode 10 `Experimento` e modifique seu programa para mostrar o menor e o maior tempo.
 
+## Exemplo de output final no arquivo out.txt
 
