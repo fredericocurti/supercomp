@@ -1,7 +1,3 @@
-// Esse código está com um problema de vazamento de memória,
-// use os recursos do BOOST para evitar que isso se repita.
-// Não é para resolver na mão, use os recursos do BOOST.
-
 #include <iostream>
 
 int main() {
