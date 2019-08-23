@@ -46,7 +46,7 @@ Primeiro, compile este código para Assembly sem SIMD.
 
 Agora, compile o mesmo programa habilitando a autovetorização.
 
->$ g++ -S -c -O2 -ftree-vectorize -mavx tarefa1.cpp -o /dev/stdout | c++filt
+>$ g++ -S -c -O2 -ffast-math -ftree-vectorize -mavx tarefa1.cpp -o /dev/stdout | c++filt
 
 **Discussão 1**: Você consegue identificar onde os códigos diferem? 
 
