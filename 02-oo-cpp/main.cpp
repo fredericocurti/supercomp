@@ -3,124 +3,120 @@
 #include "pow3mult.hpp"
 #include "sqrt.hpp"
 #include "sum.hpp"
+#include "sumavx.hpp"
 #include <iostream>
 #include <vector>
+#include <utility>
 #include <tuple>
 
 int main() {
     int i, j, n = 1000;
     double avg_time;
     std::tuple<std::string, double> min_time, max_time;
-    Experimento *log, *pow, *pow3mult, *sqrt, *sum;
+    std::vector<std::pair<double, double> > results;
+    Experimento *log, *pow, *pow3mult, *sqrt, *sum, *sumavx;
 
     min_time = std::make_tuple("",INT32_MAX);
     max_time = std::make_tuple("",0);
 
     for (i = 0; i < 5; i++) {
-    std::cout << "--------- n: " << n << " ---------\n";
-        avg_time = 0;
-        for (j = 0; j < 10; j++) {
-            log = new ExperimentoLog();
-            log->gera_entrada(n);
-            log->run();
-            avg_time += log->duration();
-        }
-        avg_time /= 10;
+        std::cout << "--------- n: " << n << " ---------\n";
+
+        /* Log */
+        log = new ExperimentoLog();
+        log->gera_entrada(n);
+        results.push_back(log->run());
+        std::cout << "avg_time for log: " << results[0].first << "\n";
 
         if (avg_time > std::get<1>(max_time)) {
             std::get<0>(max_time) = "log";
-            std::get<1>(max_time) = avg_time;
+            std::get<1>(max_time) = results[0].first;
         }
 
         if (avg_time < std::get<1>(min_time)) {
             std::get<0>(min_time) = "log";
-            std::get<1>(min_time) = avg_time;
+            std::get<1>(min_time) = results[0].first;
         }
 
-        std::cout << "avg_time for log: " << avg_time << "\n";
-        
-
-        avg_time = 0;
-        for (j = 0; j < 10; j++) {
-            pow = new ExperimentoPow();
-            pow->gera_entrada(n);
-            pow->run();
-            avg_time += pow->duration();
-        }
-        avg_time /= 10;
-        std::cout << "avg_time for pow: " << avg_time << "\n";
-
+        /* Pow */    
+        pow = new ExperimentoPow();
+        pow->gera_entrada(n);
+        results.push_back(pow->run());
+        std::cout << "avg_time for pow: " << results[1].first << "\n";
 
         if (avg_time > std::get<1>(max_time)) {
             std::get<0>(max_time) = "pow";
-            std::get<1>(max_time) = avg_time;
+            std::get<1>(max_time) = results[1].first;
         }
 
         if (avg_time < std::get<1>(min_time)) {
             std::get<0>(min_time) = "pow";
-            std::get<1>(min_time) = avg_time;
+            std::get<1>(min_time) = results[1].first;
         }
 
 
-        avg_time = 0;
-        for (j = 0; j < 10; j++) {
-            pow3mult = new ExperimentoPow3Mult();
-            pow3mult->gera_entrada(n);
-            pow3mult->run();
-            avg_time += pow3mult->duration();
-        }
-        avg_time /= 10;
-        std::cout << "avg_time for pow3mult: " << avg_time << "\n";
-
+        /* Pow3Mult */
+        pow3mult = new ExperimentoPow3Mult();
+        pow3mult->gera_entrada(n);
+        results.push_back(pow3mult->run());
+        std::cout << "avg_time for pow3mult: " << results[2].first << "\n";
 
         if (avg_time > std::get<1>(max_time)) {
             std::get<0>(max_time) = "pow3mult";
-            std::get<1>(max_time) = avg_time;
+            std::get<1>(max_time) = results[2].first;
         }
 
         if (avg_time < std::get<1>(min_time)) {
             std::get<0>(min_time) = "pow3mult";
-            std::get<1>(min_time) = avg_time;
+            std::get<1>(min_time) = results[2].first;
         }
 
-        avg_time = 0;
-        for (j = 0; j < 10; j++) {
-            sqrt = new ExperimentoSqrt();
-            sqrt->gera_entrada(n);
-            sqrt->run();
-            avg_time += sqrt->duration();
-        }
-        avg_time /= 10;
-        std::cout << "avg_time for sqrt: " << avg_time << "\n";
+        /* Sqrt */
+        sqrt = new ExperimentoSqrt();
+        sqrt->gera_entrada(n);
+        results.push_back(sqrt->run());
+        std::cout << "avg_time for sqrt: " << results[3].first << "\n";
 
         if (avg_time > std::get<1>(max_time)) {
             std::get<0>(max_time) = "sqrt";
-            std::get<1>(max_time) = avg_time;
+            std::get<1>(max_time) = results[3].first;
         }
 
         if (avg_time < std::get<1>(min_time)) {
             std::get<0>(min_time) = "sqrt";
-            std::get<1>(min_time) = avg_time;
+            std::get<1>(min_time) = results[3].first;
         }
 
-        avg_time = 0;
-        for (j = 0; j < 10; j++) {
-            sum = new ExperimentoSum();
-            sum->gera_entrada(n);
-            sum->run();
-            avg_time += sum->duration();
-        }
-        avg_time /= 10;
-        std::cout << "avg_time for sum: " << avg_time << "\n";
+        /* Sum */
+        sum = new ExperimentoSum();
+        sum->gera_entrada(n);
+        results.push_back(sum->run());
+        std::cout << "avg_time for sum: " << results[4].first << "\n";
 
         if (avg_time > std::get<1>(max_time)) {
             std::get<0>(max_time) = "sum";
-            std::get<1>(max_time) = avg_time;
+            std::get<1>(max_time) = results[4].first;
         }
 
         if (avg_time < std::get<1>(min_time)) {
             std::get<0>(min_time) = "sum";
-            std::get<1>(min_time) = avg_time;
+            std::get<1>(min_time) = results[4].first;
+        }
+
+        /* SumAVX */
+        sumavx = new ExperimentoSumAvx();
+        sumavx->gera_entrada(n);
+        results.push_back(sumavx->run());
+        std::cout << "avg_time for sumavx: " << results[5].first << "\n";
+
+        if (avg_time > std::get<1>(max_time)) {
+            std::get<0>(max_time) = "sumavx";
+            std::get<1>(max_time) = results[5].first;
+        }
+
+        if (avg_time < std::get<1>(min_time)) {
+            std::get<0>(min_time) = "sumavx";
+            std::get<1>(min_time) = results[5].first;
         }
 
         n *= 10;

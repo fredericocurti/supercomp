@@ -2,7 +2,7 @@
 // Atualizado por: Luciano Soares
 
 #include <x86intrin.h> //Extensoes SSE
-#include <bits/stdc++.h> //Bibliotecas STD
+#include "/Users/fredcurti/stdc++.h" //Bibliotecas STD
 
 const int N = 64000000; //Numero de testes
 const int V = N/8;      //tamanho vectorizado
@@ -20,13 +20,16 @@ __m256 __attribute__((aligned(32))) vectorized[V]; //Vectorized array
 inline void avx_sqrt()
 {
   //****** Insira o codigo AVX aqui *******
+    for (int i = 0; i < V; ++i) {
+      vectorized[i] = _mm256_sqrt_ps(vectorized[i]);
+    }
 }
 
 using namespace std;
 using namespace std::chrono;
 
 high_resolution_clock::time_point now = high_resolution_clock::now();
-#define TIME duration_cast<duration<double>>(high_resolution_clock::now() - now).count()
+#define TIME duration_cast<duration<double> >(high_resolution_clock::now() - now).count()
 
 int main() {
     

@@ -29,6 +29,10 @@ int main() {
 }
 ```
 
+R: Sim, o output foi:
+
+`1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000`
+
 ### Exercício 
 
 Compile e execute o código abaixo (arquivo *avx-mask.c*). Você consegue explicar seu funcionamento? Mexa com os valores da máscara e confirme suas hipóteses.
@@ -54,6 +58,8 @@ int main() {
 	return 0;
 }
 ```
+
+R: Esse código zera os valores nos quais o indice é o mesmo dos valores positivos da máscara.
 
 ### Exercício
 

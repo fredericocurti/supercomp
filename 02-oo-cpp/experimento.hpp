@@ -1,16 +1,18 @@
 #ifndef EXEMPLO_H
 #define EXEMPLO_H
+#include <vector>
+#include <utility>
 
 class Experimento {
     // variáveis declaradas aqui são privadas por padrão
     ;
     public:
         Experimento(void);
-        double* gera_entrada(int);
+        std::vector<double> gera_entrada(int);
+        std::pair<double, double> run(void);
+        std::vector<double> v; /* Vetor gerado */
         double duration();
-        void run(void);
         double d; /* Duração */
-        double* v; /* Vetor gerado */
         int n;
         virtual void experiment_code()=0;
         operator double();
