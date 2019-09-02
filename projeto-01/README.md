@@ -1,7 +1,7 @@
 # Projeto 1 - Projeto 1: C++ e SIMD - Supercomp 2019.2
 ### Frederico Curti
 
-O Relatório encontra-se no arquivo [relatorio.ipynb](./relatorio.ipybn)
+O Relatório encontra-se no arquivo [relatorio.ipynb](./relatorio.ipynb)
 
 #### Compilando
 Para compilar o projeto do zero, clone o repositório e execute os seguintes comandos:
