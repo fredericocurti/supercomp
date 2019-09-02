@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/fredcurti/supercomp/projeto1/main.cpp
+parser.hpp
+/home/fredcurti/supercomp/projeto1/parser.hpp
+iostream
+-
+string
+-
+tuple
+-
+vector
+-
+cmath
+-
+chrono
+-
+
+/home/fredcurti/supercomp/projeto1/parser.cpp
+iostream
+-
+fstream
+-
+iomanip
+-
+parser.hpp
+/home/fredcurti/supercomp/projeto1/parser.hpp
+
+/home/fredcurti/supercomp/projeto1/parser.hpp
+vector
+-
+utility
+-
+string
+-
+

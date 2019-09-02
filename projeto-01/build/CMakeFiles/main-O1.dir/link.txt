@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/main-O1.dir/main.cpp.o CMakeFiles/main-O1.dir/parser.cpp.o  -o main-O1 

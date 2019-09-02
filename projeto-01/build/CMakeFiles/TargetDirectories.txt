@@ -1,0 +1,7 @@
+/home/fredcurti/supercomp/projeto1/build/CMakeFiles/rebuild_cache.dir
+/home/fredcurti/supercomp/projeto1/build/CMakeFiles/main-O1.dir
+/home/fredcurti/supercomp/projeto1/build/CMakeFiles/main-O3.dir
+/home/fredcurti/supercomp/projeto1/build/CMakeFiles/main-O0.dir
+/home/fredcurti/supercomp/projeto1/build/CMakeFiles/main-O2.dir
+/home/fredcurti/supercomp/projeto1/build/CMakeFiles/main-O3-avx.dir
+/home/fredcurti/supercomp/projeto1/build/CMakeFiles/edit_cache.dir

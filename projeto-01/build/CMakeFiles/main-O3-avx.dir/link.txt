@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/main-O3-avx.dir/main.cpp.o CMakeFiles/main-O3-avx.dir/parser.cpp.o  -o main-O3-avx 
