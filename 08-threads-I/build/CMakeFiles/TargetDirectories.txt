@@ -1,0 +1,3 @@
+/Users/fredcurti/supercomp/08-threads-I/build/CMakeFiles/rebuild_cache.dir
+/Users/fredcurti/supercomp/08-threads-I/build/CMakeFiles/edit_cache.dir
+/Users/fredcurti/supercomp/08-threads-I/build/CMakeFiles/pi.dir
