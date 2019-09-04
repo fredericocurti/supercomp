@@ -49,18 +49,23 @@ int main() {
 ### Exercício
 
 Compile e roda o programa acima. O resultado é o esperado?
+- O resultado numérico é o esperado porém existe uma mistura da saída padrão entre a thread 0 com a thread 1
 
 ### Exercício
 
 Modifique o programa acima para criar 4 threads e atribuir a cada uma um *id* de 0 a 3. Cada thread deve executar uma função que imprime "Thread: " + id. 
 
+- Feito, porém a saída continua misturada - precisa de um semáforo
+
 ### Exercício
 
 Pesquise como detectar o máximo de threads de hardware e incorpore esta informação no seu programa acima. Ele deverá criar este número de threads.
+- Done com array de threads e `std::thread::hardware_concurrency();`
 
 ### Exercício
 
 Modifique seu programa acima para retornar um o *id* da thread ao quadrado. Como você faria isto? Como você guardaria essa informação no `main`?
+- Passaria um ponteiro para uma array de resultados, e cada thread colocaria nessa array em seu índice correspondente o resultado computado por ela.
 
 ### Exercício
 
