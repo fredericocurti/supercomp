@@ -65,8 +65,8 @@ R: Esse código zera os valores nos quais o indice é o mesmo dos valores positi
 
 Complete o código do arquivo *avx-sqrt.cpp*, criando uma versão vetorizada da função que calcula a raiz quadrada de forma linear. Anote abaixo os comando usados para habilitar, desabilitar e alinhar memória para uso com as funções intrínsecas.
 
+R: Só usei `_mm256_sqrt_ps(vectorized[i])` e teve uma melhora de 300%
 
 ### Exercício para entrega
 
 O exercício final desta atividade consiste em implementar a função `soma_positivos` usando funções intrínsicas. Adicione esta implementação aos seus experimentos e compare-a com a função `soma_positivos` compilada **sem vetorização**. 
-
