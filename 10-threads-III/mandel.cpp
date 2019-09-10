@@ -50,4 +50,5 @@ int main() {
    printf("Area of Mandlebrot set = %12.8f +/- %12.8f\n", area, error);
    printf("Correct answer should be around 1.510659\n");
    printf("numoutside: %d\n", numoutside);
+   return 1;
 }
