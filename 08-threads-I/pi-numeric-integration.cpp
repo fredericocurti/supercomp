@@ -135,13 +135,25 @@ double pi_omp_parallel_critical(long steps) {
     return step * sum_total;
 }
 
+double pi_omp_parallel_for(long steps) {
+    int spt = steps / N_THREADS; // steps per thread
+    double sum;
+    double x = 0;
+    #pragma omp parallel for reduction(+:sum) firstprivate(x)
+    for (int i = 0; i < steps; i++) {
+        x = (i + 0.5) * step;
+        sum = sum + 4.0 / (1.0 + x * x);
+    }
+
+    return step * sum;
+}
 
 int main() {
     auto start_time = std::chrono::high_resolution_clock::now();
     double pi_raiz = pi_threads_raiz(num_steps);
     auto end_time = std::chrono::high_resolution_clock::now();
     auto runtime = std::chrono::duration_cast<std::chrono::milliseconds> (end_time - start_time);
-    std::cout << "O valor de pi calculado com pi_threads_raiz passos levou ";
+    std::cout << "O valor de pi calculado com pi_threads_raiz levou ";
     std::cout.precision(17);
     std::cout << runtime.count() << " milisegundo(s) e chegou no valor : " << pi_raiz << std::endl;
 
@@ -149,7 +161,7 @@ int main() {
     double pi_nutella = pi_omp_parallel(num_steps);
     end_time = std::chrono::high_resolution_clock::now();
     runtime = std::chrono::duration_cast<std::chrono::milliseconds> (end_time - start_time);
-    std::cout << "O valor de pi calculado com pi_omp_parallel passos levou ";
+    std::cout << "O valor de pi calculado com pi_omp_parallel levou ";
     std::cout.precision(17);
     std::cout << runtime.count() << " milisegundo(s) e chegou no valor : " << pi_nutella << std::endl;
 
@@ -157,7 +169,7 @@ int main() {
     double pi_nutella_local = pi_omp_parallel_local(num_steps);
     end_time = std::chrono::high_resolution_clock::now();
     runtime = std::chrono::duration_cast<std::chrono::milliseconds> (end_time - start_time);
-    std::cout << "O valor de pi calculado com pi_omp_parallel_local passos levou ";
+    std::cout << "O valor de pi calculado com pi_omp_parallel_local levou ";
     std::cout.precision(17);
     std::cout << runtime.count() << " milisegundo(s) e chegou no valor : " << pi_nutella_local << std::endl;
 
@@ -165,7 +177,7 @@ int main() {
     double pi_nutella_atomic = pi_omp_parallel_atomic(num_steps);
     end_time = std::chrono::high_resolution_clock::now();
     runtime = std::chrono::duration_cast<std::chrono::milliseconds> (end_time - start_time);
-    std::cout << "O valor de pi calculado com pi_omp_parallel_atomic passos levou ";
+    std::cout << "O valor de pi calculado com pi_omp_parallel_atomic levou ";
     std::cout.precision(17);
     std::cout << runtime.count() << " milisegundo(s) e chegou no valor : " << pi_nutella_atomic << std::endl;
 
@@ -173,7 +185,15 @@ int main() {
     double pi_nutella_critical = pi_omp_parallel_critical(num_steps);
     end_time = std::chrono::high_resolution_clock::now();
     runtime = std::chrono::duration_cast<std::chrono::milliseconds> (end_time - start_time);
-    std::cout << "O valor de pi calculado com pi_omp_parallel_critical passos levou ";
+    std::cout << "O valor de pi calculado com pi_omp_parallel_critical levou ";
     std::cout.precision(17);
     std::cout << runtime.count() << " milisegundo(s) e chegou no valor : " << pi_nutella_critical << std::endl;
+
+    start_time = std::chrono::high_resolution_clock::now();
+    double pi_nutella_for = pi_omp_parallel_for(num_steps);
+    end_time = std::chrono::high_resolution_clock::now();
+    runtime = std::chrono::duration_cast<std::chrono::milliseconds> (end_time - start_time);
+    std::cout << "O valor de pi calculado com pi_omp_parallel_for levou ";
+    std::cout.precision(17);
+    std::cout << runtime.count() << " milisegundo(s) e chegou no valor : " << pi_nutella_for << std::endl;
 }
