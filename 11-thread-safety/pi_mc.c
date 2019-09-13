@@ -89,7 +89,8 @@ History:
 // The monte carlo pi program
 //
 
-static long num_trials = 1000000000;
+static long num_trials = 100000000;
+
 
 int main ()
 {
@@ -100,18 +101,22 @@ int main ()
    seed(-r, r);  // The circle and square are centered at the origin
    double time = omp_get_wtime();
 
-   for(i=0;i<num_trials; i++)
+   // #pragma omp parallel for private(x, y, test) reduction(+:Ncirc)
+   for(i = 0;i < num_trials; i++)
    {
       x = drandom(); 
       y = drandom();
 
       test = x*x + y*y;
 
-      if (test <= r*r) Ncirc++;
+      if (test <= r*r) {
+         Ncirc++;
+      }
     }
 
     pi = 4.0 * ((double)Ncirc/(double)num_trials);
 
+    printf("Ncirc %ld \n", Ncirc);
     printf("\n %ld trials, pi is %lf ",num_trials, pi);
     printf(" in %lf seconds\n",omp_get_wtime()-time);
 
