@@ -1,0 +1,5 @@
+/Users/fredcurti/supercomp/projeto-02/build/CMakeFiles/rebuild_cache.dir
+/Users/fredcurti/supercomp/projeto-02/build/CMakeFiles/edit_cache.dir
+/Users/fredcurti/supercomp/projeto-02/build/CMakeFiles/tsp-O3-bb.dir
+/Users/fredcurti/supercomp/projeto-02/build/CMakeFiles/tsp-O3-parallel.dir
+/Users/fredcurti/supercomp/projeto-02/build/CMakeFiles/tsp-O3-seq.dir

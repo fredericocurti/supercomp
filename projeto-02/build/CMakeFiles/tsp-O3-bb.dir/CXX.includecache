@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/fredcurti/supercomp/projeto-02/tsp.cpp
+iostream
+-
+tuple
+-
+string
+-
+vector
+-
+limits
+-
+inttypes.h
+-
+stdint.h
+-
+math.h
+-
+omp.h
+-
+algorithm
+-
+chrono
+-
+iomanip
+-
+
