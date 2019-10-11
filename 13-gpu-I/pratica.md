@@ -32,6 +32,8 @@ Host vector: 0 0 12 0 35
 Device vector 0 0 0 0 35
 ```
 
+- Funfa
+
 # Parte 1 - transferência de dados 
 
 Como visto na expositiva, a CPU e a GPU possuem espaços de endereçamento completamente distintos. Ou seja, a CPU não consegue acessar os dados na memória da GPU e vice-versa. A `thrust` disponibiliza somente um tipo de container (`vector`) e facilita este gerenciamento deixando explícito se ele está alocado na CPU (`host`) ou na GPU (`device`).  A cópia CPU$\leftrightarrow$ GPU é feita implicitamente quando criamos um `device_vector` ou quando usamos a operação de atribuição entre `host_vector` e `device_vector`. Veja o exemplo abaixo:
@@ -69,18 +71,21 @@ Consulte o arquivo *exemplo1-criacao-iteracao.cu* para um exemplo completo de al
 
 O fluxo de trabalho "normal" de aplicações usando GPU é receber os dados em um vetor na CPU e copiá-los para a GPU para fazer processamentos. Crie um programa que lê uma sequência de `double`s da entrada padrão em um `thrust::host_vector` e os copia para um `thrust::device_vector`. Teste seu programa com o arquivo *stocks-google.txt*, que contém o preço das ações do Google nos últimos 10 anos. 
 
+- OK
+
 ## Exercício
 
 A criação de um `device_vector` é demorada. Meça o tempo que a operação de alocação e cópia demora e imprima na saída de erros. (Use `std::chrono`). 
+
+- OK - ex1 - 76 ms
 
 ----
 
 Por enquanto nosso programa acima não faz nada. Na próxima seção veremos como fazer 
 
-
 # Parte 2 - reduções
 
-Uma operação genérica de *redução* transforma um vetor em um único valor. Exemplos clássicos de operações de redução incluem *soma*, *média* e *mínimo/máximo* de um vetor. 
+Uma operação genérica de *redução* transforma um vetor em um único valor. Exemplos clássicos de operações de redução incluem *soma*, *média* e *mínimo/máximo* de um vetor.
 
 A `thrust` disponibiliza este tipo de operação otimizada em *GPU* usando a função `thrust::reduce`:
 
@@ -99,9 +104,13 @@ Um exemplo de uso de redução para computar o máximo pode ser visto [aqui](htt
 
 Continuando o exercício anterior, calcule as seguintes medidas. Não se esqueça de passar o `device_vector` para a sua função `reduce`
 
-1. O preço médio das ações nos últimos 10 anos.
-1. O preço médio das ações no último ano (365 dias atrás).
+1. O preço médio das ações nos últimos 10 anos. 493.939 
+1. O preço médio das ações no último ano (365 dias atrás). 959.844
 1. O maior e o menor preço da sequência inteira e do último ano. 
+- max: 1187
+- min: 130.044
+- max_ly: 1187
+- min_ly: 753.22
 
 Você pode consultar todos os tipos de reduções disponíveis no [site da thrust](https://thrust.github.io/doc/group__reductions.html). 
 
@@ -109,9 +118,15 @@ Você pode consultar todos os tipos de reduções disponíveis no [site da thrus
 ## Exercício 
 Todos os algoritmos da `thrust` podem ser rodados também em *OpenMP* passando como primeiro argumento `thrust::host`. Modifique o seu exercício acima para fazer as mesmas chamadas porém usando *OpenMP* e meça o tempo das duas implementações. Separe o tempo de cópia para GPU e o de execução em sua análise.
 
+- ASSIGN AND COPY TO GPU: 81 ms
+- OPERATIONS IN CPU: 525169 ns
+- OPERATIONS IN GPU: 481339 ns
+
 ## Exercício
 
 Comente os resultado acima. Quando vale a pena paralelizar usando GPU? Compare o tempo de execução na CPU e na GPU e o tempo de cópia.
+
+- Como esse vetor é pequeno, não valeu muito a pena. Os ganhos foram muito baixos e o tempo de copiar para a GPU já descartou esse ganho com prejuízo.
 
 # Parte 3 - Transformações ponto a ponto
 
