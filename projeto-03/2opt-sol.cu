@@ -20,6 +20,15 @@ __device__ double dist(point p1, point p2) {
     return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
 }
 
+__device__ double cost(int *d_solutions, double *d_distances, int i, int N) {
+    double c = 0;
+    for (int j = 1; j < N; j++) {
+        c += d_distances[d_solutions[i * N + (j - 1)] * N + d_solutions[i * N + j]];
+    }
+    c += d_distances[d_solutions[i * N] * N + d_solutions[i * N + (N - 1)]];
+    return c;
+}
+
 __device__ void print_vec_int(int *v, int N) {
     for (int i = 0; i < N; i++) {
         printf("%d ", v[i]);
@@ -43,28 +52,42 @@ __global__ void distKernel(point *points, double *d_distances, int N) {
 
 __global__ void solKernel(double *d_distances, double *d_costs, int *d_solutions, int N) {
     curandState st;
+    double swap_cost = 0; // current cost for 2opt
+    double best_cost = 0; // solution cost (smallest)
     int ri; // random index
     int i = blockIdx.x * blockDim.x + threadIdx.x;
-    // printf("%d\n", i);
-    int cost = 0;
+
     curand_init(0, i, 0, &st);
 
-    
     // Fill solution with sequential possible N's
     for (int j = 0; j < N; j++) {
         d_solutions[i * N + j] = j;
     }
 
+    // Swap from random indexes to create a new possible solution
     for (int j = 1; j < N; j++) {
         ri = (int) ((N - j) * curand_uniform(&st) + j); // (max - min) * curand + min
         swap(&d_solutions[i * N + j], &d_solutions[i * N + ri]);
-        cost += d_distances[d_solutions[i * N + (j - 1)] * N + d_solutions[i * N + j]];
+        best_cost += d_distances[d_solutions[i * N + (j - 1)] * N + d_solutions[i * N + j]];
     }
 
     // Add cost between first and last
-    cost += d_distances[d_solutions[i * N] * N + d_solutions[i * N + (N - 1)]];
+    best_cost += d_distances[d_solutions[i * N] * N + d_solutions[i * N + (N - 1)]];
+    d_costs[i] = best_cost;
 
-    d_costs[i] = cost;
+    // Swap again for 2opt
+    for (int j = 1; j < N; j++) {
+        for (int k = j + 1; k < N; k++) {
+            swap(&d_solutions[i * N + j], &d_solutions[i * N + k]);
+            swap_cost = cost(d_solutions, d_distances, i, N);
+            if (swap_cost > best_cost) { // undo
+                swap(&d_solutions[i * N + k], &d_solutions[i * N + j]);
+            } else { // keep the solution
+                best_cost = swap_cost;
+            }
+        }
+    }
+    d_costs[i] = best_cost;
 }
 
 int main(int argc, char *argv[]) {
@@ -80,7 +103,7 @@ int main(int argc, char *argv[]) {
     thrust::device_vector<double> d_costs(SOLUTIONS);
     thrust::device_vector<int> d_solutions(SOLUTIONS * N);
     thrust::device_vector<double>::iterator min_cost_iter;
-
+    
     // Read from file
     for (int i = 0; i < h_points.size(); i++) {
         std::cin >> p.x;
@@ -130,6 +153,5 @@ int main(int argc, char *argv[]) {
     for (int i = min_cost_pos * N; i < (min_cost_pos * N) + N; i++) {
         std::cout << d_solutions[i] << " ";
     }
-
     std::cout << "\n";
 }
