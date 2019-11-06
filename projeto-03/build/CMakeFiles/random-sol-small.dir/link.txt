@@ -1,0 +1,1 @@
+/usr/bin/g++  CMakeFiles/random-sol-small.dir/random-sol.cu.o CMakeFiles/random-sol-small.dir/cmake_device_link.o -o random-sol-small  -L"/usr/local/cuda/lib64/stubs" -L"/usr/local/cuda/lib64" -lcudadevrt -lcudart_static -lrt -lpthread -ldl

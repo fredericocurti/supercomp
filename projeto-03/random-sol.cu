@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define BLOCK_SIZE 32
+
 typedef struct {
     double x;
     double y;
@@ -41,14 +43,15 @@ __global__ void distKernel(point *points, double *d_distances, int N) {
     d_distances[i * N + j] = dist(points[i], points[j]);
 }
 
-__global__ void solKernel(double *d_distances, double *d_costs, int *d_solutions, int N) {
+__global__ void solKernel(double *d_distances, double *d_costs, int *d_solutions, int SOLUTIONS, int N) {
     curandState st;
     int ri; // random index
     int i = blockIdx.x * blockDim.x + threadIdx.x;
-    // printf("%d\n", i);
-    int cost = 0;
-    curand_init(0, i, 0, &st);
+    double cost = 0;
 
+    if (i > SOLUTIONS) return;
+
+    curand_init(0, i, 0, &st);
     
     // Fill solution with sequential possible N's
     for (int j = 0; j < N; j++) {
@@ -92,8 +95,8 @@ int main(int argc, char *argv[]) {
     thrust::device_vector<point> d_points(h_points);
 
     // Precompute distances in GPU
-    dim3 threads_dist(32, 32, 1);
-    dim3 grid_dist(ceil(N/threads_dist.x), ceil(N/threads_dist.y), 1);
+    dim3 threads_dist(BLOCK_SIZE, BLOCK_SIZE, 1);
+    dim3 grid_dist(ceil((double) N/threads_dist.x), ceil((double) N/threads_dist.y), 1);
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
@@ -107,10 +110,11 @@ int main(int argc, char *argv[]) {
     );
 
     // Each thread will generate a random solution
-    solKernel<<<ceil(SOLUTIONS/1024), 1024>>>(
+    solKernel<<<ceil((double) SOLUTIONS/1024), 1024>>>(
         thrust::raw_pointer_cast(d_distances.data()),
         thrust::raw_pointer_cast(d_costs.data()),
         thrust::raw_pointer_cast(d_solutions.data()),
+        SOLUTIONS,
         N
     );
 
@@ -126,7 +130,7 @@ int main(int argc, char *argv[]) {
     std::cerr << msecTotal << " ms" << std::endl;
 
     std::cout << std::fixed << std::setprecision(5);
-    std::cout << min_cost << " 1" << std::endl;
+    std::cout << min_cost << " 0" << std::endl;
     for (int i = min_cost_pos * N; i < (min_cost_pos * N) + N; i++) {
         std::cout << d_solutions[i] << " ";
     }

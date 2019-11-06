@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ec2-user/fred/projeto3/2opt-sol.cu
+cuda_runtime.h
+-
+curand.h
+/home/ec2-user/fred/projeto3/curand.h
+curand_kernel.h
+/home/ec2-user/fred/projeto3/curand_kernel.h
+thrust/host_vector.h
+-
+thrust/device_vector.h
+-
+thrust/functional.h
+-
+iomanip
+-
+cmath
+-
+chrono
+-
+iostream
+-
+stdio.h
+-
+stdlib.h
+-
+

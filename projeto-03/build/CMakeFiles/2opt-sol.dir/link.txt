@@ -1,0 +1,1 @@
+/usr/bin/g++  CMakeFiles/2opt-sol.dir/2opt-sol.cu.o CMakeFiles/2opt-sol.dir/cmake_device_link.o -o 2opt-sol  -L"/usr/local/cuda/lib64/stubs" -L"/usr/local/cuda/lib64" -lcudadevrt -lcudart_static -lrt -lpthread -ldl

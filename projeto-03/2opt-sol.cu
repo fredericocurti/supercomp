@@ -1,3 +1,4 @@
+
 #include <cuda_runtime.h>
 #include "curand.h"
 #include "curand_kernel.h"
@@ -50,12 +51,14 @@ __global__ void distKernel(point *points, double *d_distances, int N) {
     d_distances[i * N + j] = dist(points[i], points[j]);
 }
 
-__global__ void solKernel(double *d_distances, double *d_costs, int *d_solutions, int N) {
+__global__ void solKernel(double *d_distances, double *d_costs, int *d_solutions, int SOLUTIONS, int N) {
     curandState st;
     double swap_cost = 0; // current cost for 2opt
     double best_cost = 0; // solution cost (smallest)
     int ri; // random index
     int i = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (i > SOLUTIONS) return;
 
     curand_init(0, i, 0, &st);
 
@@ -114,14 +117,15 @@ int main(int argc, char *argv[]) {
     // Copy points vector to device
     thrust::device_vector<point> d_points(h_points);
 
-    // Precompute distances in GPU
-    dim3 threads_dist(32, 32, 1);
-    dim3 grid_dist(ceil(N/threads_dist.x), ceil(N/threads_dist.y), 1);
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
     cudaEventRecord(start, NULL);
+
+    // Precompute distances in GPU
+    dim3 threads_dist(32, 32, 1);
+    dim3 grid_dist(ceil((double) N/threads_dist.x), ceil((double) N/threads_dist.y), 1);
 
     distKernel<<<grid_dist, threads_dist>>>(
         thrust::raw_pointer_cast(d_points.data()),
@@ -130,10 +134,11 @@ int main(int argc, char *argv[]) {
     );
 
     // Each thread will generate a random solution
-    solKernel<<<ceil(SOLUTIONS/1024), 1024>>>(
+    solKernel<<<ceil((double) SOLUTIONS/1024), 1024>>>(
         thrust::raw_pointer_cast(d_distances.data()),
         thrust::raw_pointer_cast(d_costs.data()),
         thrust::raw_pointer_cast(d_solutions.data()),
+        SOLUTIONS,
         N
     );
 
@@ -149,7 +154,7 @@ int main(int argc, char *argv[]) {
     std::cerr << msecTotal << " ms" << std::endl;
 
     std::cout << std::fixed << std::setprecision(5);
-    std::cout << min_cost << " 1" << std::endl;
+    std::cout << min_cost << " 0" << std::endl;
     for (int i = min_cost_pos * N; i < (min_cost_pos * N) + N; i++) {
         std::cout << d_solutions[i] << " ";
     }

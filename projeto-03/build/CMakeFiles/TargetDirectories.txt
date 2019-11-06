@@ -1,0 +1,5 @@
+/home/ec2-user/fred/projeto3/build/CMakeFiles/edit_cache.dir
+/home/ec2-user/fred/projeto3/build/CMakeFiles/cpu-sol.dir
+/home/ec2-user/fred/projeto3/build/CMakeFiles/2opt-sol.dir
+/home/ec2-user/fred/projeto3/build/CMakeFiles/rebuild_cache.dir
+/home/ec2-user/fred/projeto3/build/CMakeFiles/random-sol.dir
