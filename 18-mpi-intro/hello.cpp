@@ -1,7 +1,3 @@
-/*
- * fonte: https://www.boost.org/doc/libs/1_67_0/doc/html/mpi/tutorial.html
- */
-
 #include <boost/mpi.hpp>
 #include <iostream>
 #include <string>

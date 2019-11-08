@@ -41,8 +41,10 @@ std::cout << "Recebido de 0:" << res << ";\n";
 ```
 
 **Exercício**: Execute o programa com 2 processos. O resultado foi o esperado?
+- Sim
 
 **Exercício**: Execute o programa com 16 processos. E agora, deu certo? Por que?
+- Não! O programa trava, pois a mensagem ja foi consumida e todos os outros processos ficam esperando a mensagem com a tag 0 do processo 0.
 
 ## Aviso
 
@@ -59,7 +61,9 @@ world.recv(sender, tag, data_by_ref);
 
 Os campos *recipient* e *sender* são inteiros contendo o *rank* do processo destinatário/remetente da mensagem. O campo *tag* é um inteiro que pode ser usado como identificador do tipo da mensagem enviada ou de qual é seu conteúdo. Note que `recv` ós retorna se o processo de rank *recipient* enviar uma mensagem com a mesma *tag*. 
 
-**Exercício**: teste o programa abaixo (arquivo *mpi-errado1.cpp* executando-o com 2 processos. Descreva o que acontece quando ele é executado e explique porque isto ocorre. 
+**Exercício**: teste o programa abaixo (arquivo *mpi-errado1.cpp* executando-o com 2 processos. Descreva o que acontece quando ele é executado e explique porque isto ocorre.
+
+- A tag estava incorreta.
 
 ```cpp
 #include <boost/mpi/environment.hpp>
@@ -86,13 +90,15 @@ int main(int argc, char* argv[]) {
 }
 ```
 
-**Exercício**: conserte o programa acima. 
+**Exercício**: conserte o programa acima.
+- Feito no `mpi-fix.cpp`
 
 **Exercício**: execute agora o programa consertado com 3 ou mais processos. Ele ainda funciona? Se não conserte-o e explique as modificações feitas. Se sim aponte quais modificações feitas no item anterior são responsáveis por garantir que o programa funcione com mais processos. \vspace{3em}
+- Funciona
 
 **Atenção**: o próximo exercício deve ser feito a partir de um arquivo vazio. 
 
-**Exercício**: Vamos criar agora uma arquitetura de passagem de mensagens que parece um telefone sem fio: cada nó `i` deverá enviar uma mensagem para o nó `i+1`. O nó `N-1` deverá enviar uma mensagem para o nó `0`. No nosso exemplo, vamos passar como mensagem o número `i*i`. Ao receber uma mensagem cada nó deverá imprimir o remetente e o conteúdo. 
+**Exercício**: Vamos criar agora uma arquitetura de passagem de mensagens que parece um telefone sem fio: cada nó `i` deverá enviar uma mensagem para o nó `i+1`. O nó `N-1` deverá enviar uma mensagem para o nó `0`. No nosso exemplo, vamos passar como mensagem o número `i*i`. Ao receber uma mensagem cada nó deverá imprimir o remetente e o conteúdo.
 
 # Exercícios extras
 

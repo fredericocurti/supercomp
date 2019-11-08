@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
         world.send(1, 1, 100);
         world.recv(1, 0, data);
         std::cout << "Received " << data << " from 1 \n";
-    } else {
+    } else if (world.rank() == 1) { // faltou restrigir com essa condicao
         int data;
         world.send(0, 0, 200);
         world.recv(0, 1, data);
