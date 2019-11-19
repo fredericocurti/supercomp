@@ -82,8 +82,8 @@ int main(int argc, char* argv[]) {
         std::cout << "Received" << data << " from 1 \n";
     } else {
         int data;
-        world.send(0, 0, 200);
-        world.recv(0, 1, data);
+        world.send(0, 1, 200);
+        world.recv(0, 0, data);
         std::cout << "Received" << data << " from 0 \n";
     }
     return 0;
